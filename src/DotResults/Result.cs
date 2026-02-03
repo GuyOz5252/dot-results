@@ -20,7 +20,7 @@ public readonly record struct Result
             : field;
         init;
     }
-    
+
     private Result(bool isSuccess, Error error, ValidationError[]? validationErrors)
     {
         switch (isSuccess)
@@ -51,8 +51,9 @@ public readonly record struct Result
     {
         return new Result(true, default, validationErrors);
     }
-    
+
     public static implicit operator Result(Error error) => new(false, error, null);
+
     public static implicit operator Result(ValidationError[] validationErrors) =>
         new(false, default, validationErrors);
 }
@@ -69,7 +70,7 @@ public readonly record struct Result<T>
 
     public bool IsSuccess { get; }
     public bool IsFailure => !IsSuccess;
-    
+
     public Error Error
     {
         get => IsSuccess
@@ -85,7 +86,7 @@ public readonly record struct Result<T>
             : field;
         init;
     }
-    
+
     private Result(bool isSuccess, T? value, Error error, ValidationError[]? validationErrors)
     {
         IsSuccess = isSuccess;
@@ -103,12 +104,13 @@ public readonly record struct Result<T>
     {
         return new Result<T>(false, default, error, null);
     }
-    
+
     public static implicit operator Result<T>(T value) => new(true, value, default, null);
     public static implicit operator Result<T>(Error error) => new(false, default, error, null);
+
     public static implicit operator Result<T>(ValidationError[] validationErrors) =>
         new(false, default, default, validationErrors);
-    
+
     public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<Error, TResult> onFailure)
     {
         return IsSuccess ? onSuccess(Value) : onFailure(Error);
