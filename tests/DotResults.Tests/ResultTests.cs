@@ -1,4 +1,4 @@
-using DotResults;
+using Xunit;
 
 namespace DotResults.Tests;
 
